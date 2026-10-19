@@ -25,7 +25,7 @@ test('lists saved keys without fetching their secrets and clearly explains capab
     render(<AgentAccess />);
     await screen.findByText('My BlockWarriors key');
     expect(fetch).toHaveBeenCalledTimes(1);
-    expect(screen.getByText(/Currently requires an administrator/)).toBeDefined();
+    expect(screen.getByText(/Creating servers currently requires an administrator/)).toBeDefined();
     expect(screen.queryByLabelText('Full API key')).toBeNull();
     expect(screen.getByRole('button', { name: 'Copy key' })).toBeDefined();
 });

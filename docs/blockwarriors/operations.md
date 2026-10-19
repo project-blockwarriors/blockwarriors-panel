@@ -52,3 +52,13 @@ The admin layout uses an explicit bounded sidebar and a flexible content column.
 `?safe_mode=1` lets an administrator recover to the stock theme. `php artisan p:theme:activate classic` is the CLI fallback. UI rollback does not require a database rollback. Keep the beta release pinned and rehearse each update; do not use an unpinned automated `p:upgrade` for a major migration.
 
 Node/API reachability is not a complete game lifecycle test. Reserve a disposable server to exercise power operations, console WebSockets, SFTP, schedules, and backups before relying on this beta for a tournament. Never use someone's active game as a destructive smoke test.
+
+## Dreamweaver presentation (theme 1.3.0)
+
+The dashboard includes a compact link to Dreamweaver and its arena connection state. Both member navigation and the collapsible admin navigation link to `/dreamweaver/`. The competition owns submissions and tournament state; the underlying Paper server retains native console, files, power and backups in mcpanel.
+
+This release removes promotional headings and decorative gradients, uses the same DM Sans/white/neutral palette as Dreamweaver, and puts API key controls ahead of detailed agent instructions. The change uses the theme SDK only; it has no schema or permission migration. Nine theme tests cover key handling, login and navigation behavior. Desktop, tablet and phone layouts were inspected with synthetic fixtures.
+
+## Presentation refinement (theme 1.3.1)
+
+API keys and agent setup share one desktop screen. Tablet navigation moves to its own row, the member and admin layouts use the shared BlockWarriors mark, and repeated promotional and permission copy is removed. Reveal, copy, revoke, login, advanced tools and sidebar behavior are preserved. The theme passed its nine tests, typecheck and build, plus desktop/tablet/phone inspections using synthetic data. No schema or permission changes.

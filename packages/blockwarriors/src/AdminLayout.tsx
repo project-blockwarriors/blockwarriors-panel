@@ -74,6 +74,9 @@ export default function AdminLayout({ model, children }: ViewProps<'layout.admin
                                 </NavigationLink>
                             )}
                         </Navigation>
+                        <a href='/dreamweaver/' className='bw-admin-link'>
+                            Dreamweaver competition
+                        </a>
                         <Slot name='panel.navigation.after' />
                     </nav>
                 )}

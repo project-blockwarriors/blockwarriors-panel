@@ -1,11 +1,12 @@
-@import '@pterodactyl/sdk/theme-entry.css';
+@import url("https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&display=swap");
+@import "@pterodactyl/sdk/theme-entry.css";
 @source './**/*.{ts,tsx}';
 @theme {
-    --font-sans: 'Inter', ui-sans-serif, system-ui, sans-serif;
-    --font-header: 'Inter', ui-sans-serif, system-ui, sans-serif;
+    --font-sans: "DM Sans", ui-sans-serif, system-ui, sans-serif;
+    --font-header: "DM Sans", ui-sans-serif, system-ui, sans-serif;
     --shadow-sm: 0 0 0 1px var(--border);
     --shadow-md: 0 0 0 1px var(--border);
-    --shadow-lg: 0 1px 3px #00000008, 0 0 0 1px var(--border);
+    --shadow-lg: 0 0 0 1px var(--border);
 }
 :root,
 .light {
@@ -14,7 +15,7 @@
     --radius: 0.5rem;
     --layout-content-width: 76rem;
     --layout-page-spacing: 1.5rem;
-    --background: #fafafa;
+    --background: #f1f4f0;
     --foreground: #171717;
     --card: #ffffff;
     --card-foreground: #171717;
@@ -44,7 +45,7 @@
     --chart-1: #15803d;
     --chart-2: #a16207;
     --chart-3: #2563eb;
-    --chart-4: #7c3aed;
+    --chart-4: #58645c;
     --chart-5: #b91c1c;
 }
 .bw-header {
@@ -82,7 +83,7 @@
     display: grid;
     place-items: center;
     border-radius: 9px;
-    box-shadow: 3px 3px 0 #bbf7d0;
+    box-shadow: none;
 }
 .bw-product {
     display: block;
@@ -108,7 +109,7 @@
     border-radius: 6px;
 }
 .bw-nav-link:hover,
-.bw-nav-link[data-status='active'] {
+.bw-nav-link[data-status="active"] {
     color: #171717;
     background: #f5f5f5;
 }
@@ -251,7 +252,7 @@
 }
 .bw-auth {
     min-height: 100vh;
-    background: radial-gradient(ellipse at 50% 0%, #f0fdf4 0, transparent 50%), #fafafa;
+    background: #f1f4f0;
     padding: 65px 20px 30px;
 }
 .bw-auth > .bw-brand-link {
@@ -266,7 +267,7 @@
     border-radius: 12px;
     background: #fff;
     padding: 34px;
-    box-shadow: 0 5px 25px #00000003;
+    box-shadow: none;
 }
 .bw-login h1 {
     font-size: 29px;
@@ -571,7 +572,7 @@
     text-decoration: none;
 }
 .bw-admin-link:hover,
-.bw-admin-link[data-status='active'] {
+.bw-admin-link[data-status="active"] {
     background: #eef4ef;
     color: #152e1e;
 }
@@ -603,5 +604,318 @@
         border-radius: 8px;
         padding: 8px;
         background: #fff;
+    }
+}
+
+/* BlockWarriors: one neutral frame, a white working sheet, green only on game/status data. */
+.bw-header {
+    background: var(--background);
+    border: 0;
+}
+.bw-header-inner {
+    min-height: 72px;
+}
+.bw-brand {
+    font-size: 15px;
+    font-weight: 700;
+    letter-spacing: 0;
+    text-transform: none;
+}
+.bw-mark {
+    background: none;
+    color: #216344;
+    border-radius: 0;
+    width: 30px;
+    height: 30px;
+}
+.bw-product {
+    color: #58645c;
+    font-size: 12px;
+}
+.bw-intro,
+.bw-server-heading {
+    padding: 32px 0 24px;
+    align-items: start;
+}
+.bw-intro h1,
+.bw-server-heading h1 {
+    font-size: 28px;
+    letter-spacing: -0.035em;
+    margin-bottom: 8px;
+}
+.bw-intro p,
+.bw-server-heading p {
+    color: #58645c;
+    font-size: 14px;
+}
+.bw-eyebrow {
+    font-size: 13px !important;
+    letter-spacing: 0;
+    color: #58645c !important;
+}
+.bw-action,
+.bw-secondary {
+    font-size: 14px;
+    min-height: 40px;
+}
+.bw-competition-row {
+    max-width: 76rem;
+    margin: 0 auto 24px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 24px;
+    padding: 20px 24px;
+    background: #fff;
+    border: 1px solid #e2e7e1;
+    border-radius: 8px;
+}
+.bw-competition-row h2 {
+    font-size: 18px;
+    font-weight: 500;
+    margin: 0 0 6px;
+}
+.bw-competition-row p {
+    font-size: 14px;
+    color: #58645c;
+}
+.bw-competition-row .bw-action {
+    background: #f1f4f0;
+    color: #19211d;
+}
+.bw-panel {
+    padding: 24px;
+    border-color: #e2e7e1;
+    border-radius: 8px;
+}
+.bw-panel h2 {
+    margin-top: 0;
+    font-size: 18px;
+    font-weight: 500;
+}
+.bw-panel p,
+.bw-access p,
+.bw-access li {
+    font-size: 14px;
+    line-height: 1.6;
+    color: #58645c;
+}
+.bw-access-scope {
+    margin-bottom: 24px;
+    max-width: 760px;
+}
+.bw-key-note {
+    background: #f1f4f0;
+}
+.bw-key-section {
+    margin-top: 20px;
+}
+.bw-key-notice:empty {
+    display: none;
+}
+.bw-key-buttons button {
+    font-size: 14px;
+}
+.bw-login {
+    border-color: #e2e7e1;
+    border-radius: 8px;
+}
+.bw-login h1 {
+    font-size: 26px;
+}
+.bw-login > p:not(.bw-eyebrow),
+.bw-auth-footer,
+.bw-footer {
+    color: #58645c;
+    font-size: 13px;
+}
+.bw-attribution {
+    font-size: 12px !important;
+}
+.bw-admin {
+    gap: 16px;
+    padding: 8px 8px 8px 20px;
+    max-width: none;
+    grid-template-columns: 224px minmax(0, 1fr);
+}
+.bw-admin-collapsed {
+    grid-template-columns: 44px minmax(0, 1fr);
+}
+.bw-admin-content {
+    background: #fff;
+    border: 1px solid #e2e7e1;
+    border-radius: 16px;
+    padding: 24px;
+    min-height: 0;
+}
+.bw-admin-sidebar {
+    top: 16px;
+}
+.bw-admin-toggle {
+    background: transparent;
+    border: 0;
+    font-size: 14px;
+}
+.bw-admin-link {
+    border-radius: 6px;
+    font-size: 14px;
+    padding: 9px 12px;
+    color: #58645c;
+}
+.bw-admin-link:hover,
+.bw-admin-link[data-status="active"] {
+    background: #e4e9e3;
+    color: #19211d;
+}
+.bw-admin-title {
+    font-size: 14px;
+    font-weight: 600;
+    padding: 8px 10px 16px;
+    color: #19211d;
+}
+.bw-code-panel p {
+    font-size: 13px;
+    letter-spacing: 0;
+}
+@media (max-width: 1280px) {
+    .bw-competition-row {
+        margin-left: 24px;
+        margin-right: 24px;
+    }
+}
+@media (max-width: 1023px) {
+    .bw-admin,
+    .bw-admin-collapsed {
+        grid-template-columns: minmax(0, 1fr);
+        padding: 8px 16px;
+    }
+    .bw-admin-content {
+        padding: 20px;
+        border-radius: 8px;
+    }
+    .bw-admin-title {
+        display: none;
+    }
+}
+@media (max-width: 700px) {
+    .bw-competition-row {
+        flex-direction: column;
+        align-items: stretch;
+        padding: 20px;
+    }
+    .bw-header-inner {
+        gap: 12px;
+    }
+    .bw-nav {
+        gap: 0;
+    }
+    .bw-nav-link {
+        font-size: 13px;
+    }
+    .bw-panel {
+        padding: 20px;
+    }
+    .bw-admin-content {
+        padding: 16px;
+    }
+    .bw-access {
+        margin-bottom: 24px;
+    }
+    .bw-intro,
+    .bw-server-heading {
+        padding-top: 24px;
+    }
+}
+
+.bw-access label span {
+    color: #58645c;
+}
+.bw-connect pre {
+    font-size: 13px;
+}
+
+.bw-login label,
+.bw-login button {
+    text-transform: none;
+    letter-spacing: 0;
+}
+.bw-login input {
+    background: #fff;
+    border: 1px solid #bec8bf;
+    color: #19211d;
+}
+
+/* Keys and setup share one working screen; documentation remains secondary. */
+.bw-access-columns {
+    display: grid;
+    grid-template-columns: minmax(0, 1.75fr) minmax(280px, 1fr);
+    gap: 40px;
+    align-items: start;
+}
+.bw-access-columns .bw-key-section {
+    margin: 0;
+}
+.bw-connect {
+    padding-top: 8px;
+    min-width: 0;
+}
+.bw-connect h2 {
+    font-size: 18px;
+    font-weight: 500;
+    margin: 0 0 16px;
+}
+.bw-connect p {
+    margin: 16px 0;
+}
+.bw-key-row {
+    flex-wrap: wrap;
+    gap: 16px;
+}
+.bw-key-buttons {
+    gap: 6px;
+}
+.bw-key-note {
+    background: none;
+    padding: 0;
+}
+.bw-competition-row {
+    background: transparent;
+    border: 0;
+    border-radius: 0;
+    border-bottom: 1px solid var(--border);
+    padding: 0 0 24px;
+}
+.bw-competition-row .bw-action {
+    background: transparent;
+    padding-right: 0;
+}
+.bw-admin-content {
+    border-radius: 10px;
+}
+.bw-brand svg {
+    display: block;
+}
+@media (max-width: 1000px) {
+    .bw-access-columns {
+        grid-template-columns: 1fr;
+        gap: 28px;
+    }
+    .bw-connect {
+        padding: 0 4px;
+    }
+}
+
+.bw-nav-link {
+    white-space: nowrap;
+}
+@media (min-width: 701px) and (max-width: 1000px) {
+    .bw-header-inner {
+        flex-wrap: wrap;
+        padding-top: 16px;
+        padding-bottom: 12px;
+        gap: 12px;
+    }
+    .bw-nav {
+        width: 100%;
     }
 }
