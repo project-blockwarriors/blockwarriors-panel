@@ -23,7 +23,7 @@ For a local synthetic-data preview, run Vite with `packages/blockwarriors/previe
 
 White/neutral surfaces, black controls, green accents; responsive header and login. Server navigation emphasizes Console, Files, Backups, and Members. Advanced retains Network, Startup, Settings, Schedules, Databases, Activity, and extension screens where the member has permission. Admin navigation remains available only when the upstream model authorizes it. The theme changes presentation, never access control.
 
-Agent access explains personal Client API keys and links to the tested Python CLI. Existing APIs, SFTP, password reset, passwords, and two-factor authentication remain upstream behavior. Google sign-in is a separate integration pending an organization-owned provider project; see [the design](google-sign-in.md).
+Agent access explains personal Client API keys and links to the tested Python CLI. Existing APIs, SFTP, password reset, passwords, and two-factor authentication remain upstream behavior. Google sign-in is on hold at the user's request; see [the design](google-sign-in.md).
 
 ## Upgrade procedure
 
@@ -32,8 +32,8 @@ Read the [upstream native migration guide](https://docs.pterodactyl.io/v2/upgrad
 1. Inventory versions and dependencies, live services, users/servers/nodes/API keys, and custom integrations. Nest API endpoints are removed in v2; update integrations that call them.
 2. Back up database, full panel files, encryption key/environment, web/worker configuration, and Wings binary/config. Verify archive checksums and retain an off-host copy. These backups contain credentials and must remain private.
 3. Rehearse against a separate database with an account unable to access the production database. Run migration commands with network isolation, no queue worker or scheduler, and separate cache/session state. Never regenerate APP_KEY. Run missing v1 migrations using the current v1 code before v2.
-4. Compare counts and password/2FA/node-token/API-token/ownership fields. Test preserved keys, page rendering, theme compatibility, and node read operations. Restore the backup into a separate database and verify old-version/API boot as the rollback rehearsal.
-5. Place the live panel in maintenance mode and stop its worker; take a fresh final database backup. Install v2 into a separate directory, preserve the environment and key, migrate, then swap directories. Keep the original directory intact.
+4. Compare counts and password/2FA/node-token/API-token/ownership fields. Test preserved keys, page rendering, theme compatibility, and node read operations. Run node checks with production TLS verification: upstream can skip certificate validation outside production, masking expired certificates. Record pre-existing failures separately and never bypass TLS validation to pass a migration gate. Restore the backup into a separate database and verify old-version/API boot as the rollback rehearsal, including completion of any previously pending v1 migration.
+5. Place the live panel in maintenance mode and stop its worker; take a fresh final database backup. Run maintenance/cache commands as the web service account so generated files remain readable. Install v2 into a separate directory, preserve the production environment and key, migrate, then swap directories. Keep the original directory intact.
 6. Add the upstream static-only `/assets/` nginx block so extension assets cannot execute as PHP; reject hidden files. Check nginx configuration before reload. Restart PHP/queue worker only after the new directory and permissions are ready.
 7. Check HTTPS, login bootstrap, API keys, server lists, both nodes, and logs before ending maintenance. If a gate fails before reopening, restore the original directory/config and the final database backup. After reopening, rollback needs incident coordination because database restoration discards subsequent panel writes and cannot undo external server changes.
 

@@ -1,6 +1,6 @@
 # Google sign-in for existing members
 
-Status: researched integration design; not enabled. Existing passwords and two-factor authentication remain available. Do not show a nonfunctional Google sign-in button.
+Status: **on hold at the user's request**; researched integration design, not enabled. Existing passwords and two-factor authentication remain available. Do not implement or activate this integration until work is resumed. Do not show a nonfunctional Google sign-in button.
 
 ## Lowest-maintenance option
 
