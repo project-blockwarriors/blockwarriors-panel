@@ -59,7 +59,6 @@ export default function AdminLayout({ model, children }: ViewProps<'layout.admin
                     {open ? <PanelLeftClose size={19} aria-hidden /> : <PanelLeftOpen size={19} aria-hidden />}
                     {open && <span>Administration</span>}
                 </button>
-                {open && <div className='bw-admin-title'>BlockWarriors</div>}
                 {open && (
                     <nav id='bw-admin-navigation' aria-label='Administration'>
                         <Slot name='panel.navigation.before' />
@@ -75,7 +74,9 @@ export default function AdminLayout({ model, children }: ViewProps<'layout.admin
                                 </NavigationLink>
                             )}
                         </Navigation>
-                        <a href='/dreamweaver/' className='bw-admin-link'>Dreamweaver competition</a>
+                        <a href='/dreamweaver/' className='bw-admin-link'>
+                            Dreamweaver competition
+                        </a>
                         <Slot name='panel.navigation.after' />
                     </nav>
                 )}

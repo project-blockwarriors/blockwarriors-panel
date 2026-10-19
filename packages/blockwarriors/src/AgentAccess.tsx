@@ -44,7 +44,11 @@ async function api<T>(path: string, method = 'GET', body?: unknown): Promise<T> 
 
 const date = (value: string | null) =>
     value
-        ? new Date(value).toLocaleDateString(undefined, { year: 'numeric', month: 'short', day: 'numeric' })
+        ? new Date(value).toLocaleDateString(undefined, {
+              year: 'numeric',
+              month: 'short',
+              day: 'numeric',
+          })
         : 'Never';
 
 export default function AgentAccess() {
@@ -121,227 +125,233 @@ export default function AgentAccess() {
         <>
             <section className='bw-intro'>
                 <div>
-
                     <h1>API keys</h1>
                     <p>Connect an agent or script to your Minecraft servers.</p>
                 </div>
             </section>
             <PageContentBlock title='API keys & agent access'>
                 <div className='bw-access'>
-<p className='bw-access-scope'>Keys can read and write files, manage power, and send console commands on servers your account can access. Creating servers currently requires an administrator.</p>
-                    <section className='bw-panel bw-key-section' aria-label='Your API keys'>
-                        <div className='bw-key-heading'>
-                            <div>
-                                <h2>Your keys</h2>
-                                <p>
-                                    Your default key is ready to use. Create separate keys for additional agents or scripts.
-                                </p>
+                    <div className='bw-access-columns'>
+                        <section className='bw-panel bw-key-section' aria-label='Your API keys'>
+                            <div className='bw-key-heading'>
+                                <div>
+                                    <h2>Your keys</h2>
+                                    <p>Show or copy an existing key, or name a new one.</p>
+                                </div>
                             </div>
-                        </div>
-                        <p className='bw-key-note'>
-                            Keys have your account’s permissions, including writes where allowed. They do not grant
-                            access to other members’ private servers. Keep them in your agent’s secret store.
-                        </p>
-                        <form
-                            className='bw-key-create'
-                            onSubmit={(e) => {
-                                e.preventDefault();
-                                void run(async () => {
-                                    await api('', 'POST', { description: name.trim() || 'Agent key', allowed_ips: [] });
-                                    setName('');
-                                    await refresh();
-                                    setNotice('Key created. Use Copy key to connect your agent.');
-                                });
-                            }}
-                        >
-                            <label htmlFor='bw-key-name'>
-                                Key name <span>(optional)</span>
-                                <input
-                                    id='bw-key-name'
-                                    value={name}
-                                    maxLength={500}
-                                    placeholder='e.g. Cursor on my laptop'
-                                    onChange={(e) => setName(e.target.value)}
-                                />
-                            </label>
-                            <button className='bw-action' type='submit' disabled={busy || loading}>
-                                Create key
-                            </button>
-                        </form>
-                        {error && (
-                            <p className='bw-error' role='alert'>
-                                {error}
+                            <form
+                                className='bw-key-create'
+                                onSubmit={(e) => {
+                                    e.preventDefault();
+                                    void run(async () => {
+                                        await api('', 'POST', {
+                                            description: name.trim() || 'Agent key',
+                                            allowed_ips: [],
+                                        });
+                                        setName('');
+                                        await refresh();
+                                        setNotice('Key created. Use Copy key to connect your agent.');
+                                    });
+                                }}
+                            >
+                                <label htmlFor='bw-key-name'>
+                                    Key name <span>(optional)</span>
+                                    <input
+                                        id='bw-key-name'
+                                        value={name}
+                                        maxLength={500}
+                                        placeholder='e.g. Arena development'
+                                        onChange={(e) => setName(e.target.value)}
+                                    />
+                                </label>
+                                <button className='bw-action' type='submit' disabled={busy || loading}>
+                                    Create key
+                                </button>
+                            </form>
+                            {error && (
+                                <p className='bw-error' role='alert'>
+                                    {error}
+                                </p>
+                            )}
+                            <p className='bw-key-notice' role='status'>
+                                {notice}
                             </p>
-                        )}
-                        <p className='bw-key-notice' role='status'>
-                            {notice}
-                        </p>
-                        {loading ? (
-                            <p>Loading your keys…</p>
-                        ) : keys.length === 0 ? (
-                            <p>No active keys. Create one above when you’re ready to connect an agent.</p>
-                        ) : (
-                            <div className='bw-key-list'>
-                                {keys.map((key) => (
-                                    <article
-                                        className='bw-key'
-                                        key={key.identifier}
-                                        aria-label={`Key: ${key.description}`}
-                                    >
-                                        <div className='bw-key-row'>
-                                            <div>
-                                                <h3>{key.description || 'API key'}</h3>
-                                                <code>{key.identifier}••••••••</code>
-                                                <p>
-                                                    Created {date(key.created_at)} · Last used {date(key.last_used_at)}
-                                                </p>
-                                                {!!key.allowed_ips?.length && (
-                                                    <p>Restricted to: {key.allowed_ips.join(', ')}</p>
-                                                )}
-                                            </div>
-                                            <div className='bw-key-buttons'>
-                                                <button
-                                                    className='bw-secondary'
-                                                    disabled={busy}
-                                                    onClick={() => {
-                                                        if (secret?.id === key.identifier) setSecret(null);
-                                                        else
-                                                            void run(async () =>
+                            {loading ? (
+                                <p>Loading your keys…</p>
+                            ) : keys.length === 0 ? (
+                                <p>No active keys. Create one above when you’re ready to connect an agent.</p>
+                            ) : (
+                                <div className='bw-key-list'>
+                                    {keys.map((key) => (
+                                        <article
+                                            className='bw-key'
+                                            key={key.identifier}
+                                            aria-label={`Key: ${key.description}`}
+                                        >
+                                            <div className='bw-key-row'>
+                                                <div>
+                                                    <h3>{key.description || 'API key'}</h3>
+                                                    <code>{key.identifier}••••••••</code>
+                                                    <p>
+                                                        Created {date(key.created_at)} · Last used{' '}
+                                                        {date(key.last_used_at)}
+                                                    </p>
+                                                    {!!key.allowed_ips?.length && (
+                                                        <p>Restricted to: {key.allowed_ips.join(', ')}</p>
+                                                    )}
+                                                </div>
+                                                <div className='bw-key-buttons'>
+                                                    <button
+                                                        className='bw-secondary'
+                                                        disabled={busy}
+                                                        onClick={() => {
+                                                            if (secret?.id === key.identifier) setSecret(null);
+                                                            else
+                                                                void run(async () =>
+                                                                    setSecret({
+                                                                        id: key.identifier,
+                                                                        token: await reveal(key),
+                                                                    })
+                                                                );
+                                                        }}
+                                                    >
+                                                        {secret?.id === key.identifier ? 'Hide' : 'Show'}
+                                                    </button>
+                                                    <button
+                                                        className='bw-secondary'
+                                                        disabled={busy}
+                                                        onClick={() =>
+                                                            void run(async () => {
+                                                                const token = await reveal(key);
                                                                 setSecret({
                                                                     id: key.identifier,
-                                                                    token: await reveal(key),
-                                                                })
-                                                            );
-                                                    }}
-                                                >
-                                                    {secret?.id === key.identifier ? 'Hide' : 'Show'}
-                                                </button>
-                                                <button
-                                                    className='bw-secondary'
-                                                    disabled={busy}
-                                                    onClick={() =>
-                                                        void run(async () => {
-                                                            const token = await reveal(key);
-                                                            setSecret({ id: key.identifier, token });
-                                                            await copy(
-                                                                token,
-                                                                'Key copied. Paste it into your agent’s secret store.'
-                                                            );
-                                                        })
-                                                    }
-                                                >
-                                                    Copy key
-                                                </button>
-                                                <button
-                                                    className='bw-revoke'
-                                                    disabled={busy}
-                                                    onClick={() => setRevoking(key.identifier)}
-                                                >
-                                                    Revoke
-                                                </button>
+                                                                    token,
+                                                                });
+                                                                await copy(
+                                                                    token,
+                                                                    'Key copied. Paste it into your agent’s secret store.'
+                                                                );
+                                                            })
+                                                        }
+                                                    >
+                                                        Copy key
+                                                    </button>
+                                                    <button
+                                                        className='bw-revoke'
+                                                        disabled={busy}
+                                                        onClick={() => setRevoking(key.identifier)}
+                                                    >
+                                                        Revoke
+                                                    </button>
+                                                </div>
                                             </div>
-                                        </div>
-                                        {secret?.id === key.identifier && (
-                                            <div className='bw-revealed'>
-                                                <label htmlFor={`secret-${key.identifier}`}>
-                                                    Full API key
-                                                    <input
-                                                        id={`secret-${key.identifier}`}
-                                                        readOnly
-                                                        autoComplete='off'
-                                                        spellCheck={false}
-                                                        value={secret.token}
-                                                        onFocus={(e) => e.target.select()}
-                                                    />
-                                                </label>
-                                                <p>Hides after one minute or when you leave this tab.</p>
-                                            </div>
-                                        )}
-                                        {revoking === key.identifier && (
-                                            <div
-                                                className='bw-revoke-confirm'
-                                                role='group'
-                                                aria-label='Confirm revocation'
-                                            >
-                                                <p>
-                                                    Revoke this key? Agents using it will lose access immediately. It
-                                                    will not be recreated automatically.
-                                                </p>
-                                                <button
-                                                    className='bw-revoke'
-                                                    disabled={busy}
-                                                    onClick={() =>
-                                                        void run(async () => {
-                                                            await api(
-                                                                `/${encodeURIComponent(key.identifier)}`,
-                                                                'DELETE'
-                                                            );
-                                                            setSecret(null);
-                                                            setRevoking(null);
-                                                            await refresh();
-                                                            setNotice('Key revoked.');
-                                                        })
-                                                    }
+                                            {secret?.id === key.identifier && (
+                                                <div className='bw-revealed'>
+                                                    <label htmlFor={`secret-${key.identifier}`}>
+                                                        Full API key
+                                                        <input
+                                                            id={`secret-${key.identifier}`}
+                                                            readOnly
+                                                            autoComplete='off'
+                                                            spellCheck={false}
+                                                            value={secret.token}
+                                                            onFocus={(e) => e.target.select()}
+                                                        />
+                                                    </label>
+                                                    <p>Hides after one minute or when you leave this tab.</p>
+                                                </div>
+                                            )}
+                                            {revoking === key.identifier && (
+                                                <div
+                                                    className='bw-revoke-confirm'
+                                                    role='group'
+                                                    aria-label='Confirm revocation'
                                                 >
-                                                    Revoke this key
-                                                </button>
-                                                <button
-                                                    className='bw-secondary'
-                                                    disabled={busy}
-                                                    onClick={() => setRevoking(null)}
-                                                >
-                                                    Cancel
-                                                </button>
-                                            </div>
-                                        )}
-                                    </article>
-                                ))}
-                            </div>
-                        )}
-                        {!loading && (
-                            <button className='bw-secondary' disabled={busy} onClick={() => void run(refresh)}>
-                                Refresh keys
+                                                    <p>
+                                                        Revoke this key? Agents using it will lose access immediately.
+                                                        It will not be recreated automatically.
+                                                    </p>
+                                                    <button
+                                                        className='bw-revoke'
+                                                        disabled={busy}
+                                                        onClick={() =>
+                                                            void run(async () => {
+                                                                await api(
+                                                                    `/${encodeURIComponent(key.identifier)}`,
+                                                                    'DELETE'
+                                                                );
+                                                                setSecret(null);
+                                                                setRevoking(null);
+                                                                await refresh();
+                                                                setNotice('Key revoked.');
+                                                            })
+                                                        }
+                                                    >
+                                                        Revoke this key
+                                                    </button>
+                                                    <button
+                                                        className='bw-secondary'
+                                                        disabled={busy}
+                                                        onClick={() => setRevoking(null)}
+                                                    >
+                                                        Cancel
+                                                    </button>
+                                                </div>
+                                            )}
+                                        </article>
+                                    ))}
+                                </div>
+                            )}
+                            {!loading && (
+                                <button className='bw-secondary' disabled={busy} onClick={() => void run(refresh)}>
+                                    Refresh keys
+                                </button>
+                            )}
+                        </section>
+                        <section className='bw-connect' aria-label='Connect your coding agent'>
+                            <h2>Connect your agent</h2>
+                            <p>
+                                Keys can edit files, send console commands, and control power on servers you can access.
+                                Creating servers currently requires an administrator.
+                            </p>
+                            <ol>
+                                <li>
+                                    Copy a key above and save it as <code>BW_API_TOKEN</code> in your agent’s
+                                    environment or secret store.
+                                </li>
+                                <li>
+                                    Give your agent these instructions. They describe the API without including your
+                                    key.
+                                </li>
+                            </ol>
+                            <button
+                                className='bw-action'
+                                disabled={busy}
+                                onClick={() =>
+                                    void run(() =>
+                                        copy(instructions, 'Agent instructions copied. Your API key is not included.')
+                                    )
+                                }
+                            >
+                                Copy agent instructions
                             </button>
-                        )}
-                    </section>
-                    <section className='bw-panel bw-connect' aria-label='Connect your coding agent'>
-                        <h2>Connect in two steps</h2>
-                        <ol>
-                            <li>
-                                Copy a key above and save it as <code>BW_API_TOKEN</code> in your agent’s environment or
-                                secret store.
-                            </li>
-                            <li>
-                                Give your agent these instructions. They describe the API without including your key.
-                            </li>
-                        </ol>
-                        <button
-                            className='bw-action'
-                            disabled={busy}
-                            onClick={() =>
-                                void run(() =>
-                                    copy(instructions, 'Agent instructions copied. Your API key is not included.')
-                                )
-                            }
-                        >
-                            Copy agent instructions
-                        </button>
-                        <details>
-                            <summary>View agent instructions</summary>
-                            <pre>{instructions}</pre>
-                        </details>
-                        <p>
-                            API base URL: <code>{origin}/api/client</code>
-                        </p>
-                        <a
-                            className='bw-doc-link'
-                            href='https://github.com/project-blockwarriors/blockwarriors-panel/blob/blockwarriors-v2/docs/blockwarriors/agents.md'
-                            target='_blank'
-                            rel='noreferrer'
-                        >
-                            API examples & optional CLI →
-                        </a>
-                    </section>
+                            <details>
+                                <summary>View agent instructions</summary>
+                                <pre>{instructions}</pre>
+                            </details>
+                            <p>
+                                API base URL: <code>{origin}/api/client</code>
+                            </p>
+                            <a
+                                className='bw-doc-link'
+                                href='https://github.com/project-blockwarriors/blockwarriors-panel/blob/blockwarriors-v2/docs/blockwarriors/agents.md'
+                                target='_blank'
+                                rel='noreferrer'
+                            >
+                                API examples & optional CLI →
+                            </a>
+                        </section>
+                    </div>
                 </div>
             </PageContentBlock>
         </>

@@ -1,7 +1,7 @@
 import { useId, useState, useEffect } from 'react';
 import AgentAccess from './AgentAccess';
 import AdminLayout from './AdminLayout';
-import { ArrowUpRight, Blocks, LogOut, Terminal, ChevronDown } from 'lucide-react';
+import { ArrowUpRight, LogOut, Terminal, ChevronDown } from 'lucide-react';
 import { Button, Form, Input, Label, PanelLink, SubNavigation, SubNavigationLayout } from '@pterodactyl/sdk';
 import { defineTheme, Main, Slot, View, type FieldModel, type ViewProps } from '@pterodactyl/sdk/theme';
 
@@ -9,10 +9,13 @@ function Brand() {
     return (
         <span className='bw-brand'>
             <span className='bw-mark'>
-                <Blocks size={20} aria-hidden />
+                <svg width='28' height='28' viewBox='0 0 32 32' aria-hidden='true'>
+                    <path d='M2 6h8v8h4V2h8v12h8v8H18v8h-8V18H2Z' fill='currentColor' />
+                </svg>
             </span>
             <span>
-                BlockWarriors<span className='bw-product'>Server management</span>
+                BlockWarriors
+                <span className='bw-product'>Server management</span>
             </span>
         </span>
     );
@@ -52,14 +55,16 @@ function AppLayout({ model, children }: ViewProps<'layout.app'>) {
                         >
                             <LogOut size={17} />
                         </button>
-                        <a href='/dreamweaver/' className='bw-nav-link'>Dreamweaver</a>
+                        <a href='/dreamweaver/' className='bw-nav-link'>
+                            Dreamweaver
+                        </a>
                         <Slot name='nav.items.after' />
                     </nav>
                 </div>
             </header>
             <Main>{children}</Main>
             <footer className='bw-footer'>
-                BlockWarriors infrastructure{' '}
+                BlockWarriors{' '}
                 <span>
                     Powered by{' '}
                     <a href='https://pterodactyl.io' target='_blank' rel='noreferrer'>
@@ -72,17 +77,33 @@ function AppLayout({ model, children }: ViewProps<'layout.app'>) {
 }
 
 function DreamweaverStatus() {
-    const [state, setState] = useState<{ healthy: boolean; state?: { status?: string; tick?: number } } | null>(null);
+    const [state, setState] = useState<{
+        healthy: boolean;
+        state?: { status?: string; tick?: number };
+    } | null>(null);
     useEffect(() => {
         const controller = new AbortController();
-        fetch('/dreamweaver/api/arena', { signal: controller.signal }).then((r) => r.ok ? r.json() : null).then(setState).catch(() => {});
+        fetch('/dreamweaver/api/arena', { signal: controller.signal })
+            .then((r) => (r.ok ? r.json() : null))
+            .then(setState)
+            .catch(() => {});
         return () => controller.abort();
     }, []);
-    return <section className='bw-competition-row'>
-        <div><h2>Dreamweaver</h2>
-            <p>{state?.healthy ? `Arena connected · ${state.state?.status ?? 'private playtest'}` : 'Bot submissions, practice matches, and tournament results.'}</p></div>
-        <a href='/dreamweaver/' className='bw-action'>Open Dreamweaver <ArrowUpRight size={16} aria-hidden /></a>
-    </section>;
+    return (
+        <section className='bw-competition-row'>
+            <div>
+                <h2>Dreamweaver</h2>
+                <p>
+                    {state?.healthy
+                        ? `Arena connected · ${state.state?.status ?? 'private match'}`
+                        : 'Minecraft bot competition · Spring 2027'}
+                </p>
+            </div>
+            <a href='/dreamweaver/' className='bw-action'>
+                Open Dreamweaver <ArrowUpRight size={16} aria-hidden />
+            </a>
+        </section>
+    );
 }
 
 function Dashboard({ Default, ...props }: ViewProps<'page.dashboard'>) {
@@ -90,9 +111,8 @@ function Dashboard({ Default, ...props }: ViewProps<'page.dashboard'>) {
         <>
             <section className='bw-intro'>
                 <div>
-
                     <h1>Servers</h1>
-                    <p>Minecraft servers you own or help manage.</p>
+                    <p>Console, files, and access for your Minecraft servers.</p>
                 </div>
                 <PanelLink destination={{ to: '/account/api' }} className='bw-action'>
                     <Terminal size={17} aria-hidden />
@@ -118,7 +138,6 @@ function ServerLayout({ model, children }: ViewProps<'layout.server'>) {
                         All servers
                     </PanelLink>
                     <h1>{model.name}</h1>
-                    <p>Console, files, backups, and member access.</p>
                 </div>
                 <button
                     type='button'
@@ -195,9 +214,8 @@ function Login({ model }: ViewProps<'page.auth.login'>) {
     const { Captcha } = model;
     return (
         <section className='bw-login'>
-
             <h1>Sign in</h1>
-            <p>Use your existing BlockWarriors account.</p>
+            <p>Sign in to manage your Minecraft servers.</p>
             <Form form={{ handleSubmit: model.submit }}>
                 <LoginField field={model.fields.username} label='Username or email' />
                 <LoginField field={model.fields.password} label='Password' />

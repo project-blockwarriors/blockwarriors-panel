@@ -58,3 +58,7 @@ Node/API reachability is not a complete game lifecycle test. Reserve a disposabl
 The dashboard includes a compact link to Dreamweaver and its arena connection state. Both member navigation and the collapsible admin navigation link to `/dreamweaver/`. The competition owns submissions and tournament state; the underlying Paper server retains native console, files, power and backups in mcpanel.
 
 This release removes promotional headings and decorative gradients, uses the same DM Sans/white/neutral palette as Dreamweaver, and puts API key controls ahead of detailed agent instructions. The change uses the theme SDK only; it has no schema or permission migration. Nine theme tests cover key handling, login and navigation behavior. Desktop, tablet and phone layouts were inspected with synthetic fixtures.
+
+## Presentation refinement (theme 1.3.1)
+
+API keys and agent setup share one desktop screen. Tablet navigation moves to its own row, the member and admin layouts use the shared BlockWarriors mark, and repeated promotional and permission copy is removed. Reveal, copy, revoke, login, advanced tools and sidebar behavior are preserved. The theme passed its nine tests, typecheck and build, plus desktop/tablet/phone inspections using synthetic data. No schema or permission changes.
