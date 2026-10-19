@@ -121,34 +121,20 @@ export default function AgentAccess() {
         <>
             <section className='bw-intro'>
                 <div>
-                    <p className='bw-eyebrow'>API KEYS & AGENT ACCESS</p>
-                    <h1>Your agent. Your servers.</h1>
-                    <p>A key lets your coding agent read and change your Minecraft servers through mcpanel.</p>
+
+                    <h1>API keys</h1>
+                    <p>Connect an agent or script to your Minecraft servers.</p>
                 </div>
             </section>
             <PageContentBlock title='API keys & agent access'>
                 <div className='bw-access'>
-                    <div className='bw-capabilities' aria-label='API capabilities'>
-                        <article>
-                            <h2>Read & write files</h2>
-                            <p>Edit configs, upload plugins, and work with your bot’s files.</p>
-                        </article>
-                        <article>
-                            <h2>Control your servers</h2>
-                            <p>Check status, start or restart, and send console commands.</p>
-                        </article>
-                        <article>
-                            <h2>Create servers</h2>
-                            <p>Currently requires an administrator. Member self-service is not enabled yet.</p>
-                        </article>
-                    </div>
+<p className='bw-access-scope'>Keys can read and write files, manage power, and send console commands on servers your account can access. Creating servers currently requires an administrator.</p>
                     <section className='bw-panel bw-key-section' aria-label='Your API keys'>
                         <div className='bw-key-heading'>
                             <div>
                                 <h2>Your keys</h2>
                                 <p>
-                                    Every account starts with a key. Existing keys keep working. You can show or copy
-                                    them here anytime.
+                                    Your default key is ready to use. Create separate keys for additional agents or scripts.
                                 </p>
                             </div>
                         </div>

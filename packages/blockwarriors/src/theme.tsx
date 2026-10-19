@@ -1,4 +1,4 @@
-import { useId, useState } from 'react';
+import { useId, useState, useEffect } from 'react';
 import AgentAccess from './AgentAccess';
 import AdminLayout from './AdminLayout';
 import { ArrowUpRight, Blocks, LogOut, Terminal, ChevronDown } from 'lucide-react';
@@ -12,7 +12,7 @@ function Brand() {
                 <Blocks size={20} aria-hidden />
             </span>
             <span>
-                BLOCKWARRIORS<span className='bw-product'>Server management</span>
+                BlockWarriors<span className='bw-product'>Server management</span>
             </span>
         </span>
     );
@@ -52,6 +52,7 @@ function AppLayout({ model, children }: ViewProps<'layout.app'>) {
                         >
                             <LogOut size={17} />
                         </button>
+                        <a href='/dreamweaver/' className='bw-nav-link'>Dreamweaver</a>
                         <Slot name='nav.items.after' />
                     </nav>
                 </div>
@@ -70,21 +71,36 @@ function AppLayout({ model, children }: ViewProps<'layout.app'>) {
     );
 }
 
+function DreamweaverStatus() {
+    const [state, setState] = useState<{ healthy: boolean; state?: { status?: string; tick?: number } } | null>(null);
+    useEffect(() => {
+        const controller = new AbortController();
+        fetch('/dreamweaver/api/arena', { signal: controller.signal }).then((r) => r.ok ? r.json() : null).then(setState).catch(() => {});
+        return () => controller.abort();
+    }, []);
+    return <section className='bw-competition-row'>
+        <div><h2>Dreamweaver</h2>
+            <p>{state?.healthy ? `Arena connected · ${state.state?.status ?? 'private playtest'}` : 'Bot submissions, practice matches, and tournament results.'}</p></div>
+        <a href='/dreamweaver/' className='bw-action'>Open Dreamweaver <ArrowUpRight size={16} aria-hidden /></a>
+    </section>;
+}
+
 function Dashboard({ Default, ...props }: ViewProps<'page.dashboard'>) {
     return (
         <>
             <section className='bw-intro'>
                 <div>
-                    <p className='bw-eyebrow'>THE BLOCKWARRIORS WORKSPACE</p>
-                    <h1>Your servers. Ready to build.</h1>
-                    <p>Launch worlds, ship your bots, and keep the game running.</p>
+
+                    <h1>Servers</h1>
+                    <p>Minecraft servers you own or help manage.</p>
                 </div>
                 <PanelLink destination={{ to: '/account/api' }} className='bw-action'>
                     <Terminal size={17} aria-hidden />
-                    Connect your agent
+                    API keys
                     <ArrowUpRight size={16} aria-hidden />
                 </PanelLink>
             </section>
+            <DreamweaverStatus />
             <Default {...props} />
         </>
     );
@@ -99,10 +115,10 @@ function ServerLayout({ model, children }: ViewProps<'layout.server'>) {
             <section className='bw-server-heading'>
                 <div>
                     <PanelLink destination={{ to: '/' }} className='bw-eyebrow'>
-                        ALL SERVERS /
+                        All servers
                     </PanelLink>
                     <h1>{model.name}</h1>
-                    <p>Console, files, backups, and access. Everything for this world.</p>
+                    <p>Console, files, backups, and member access.</p>
                 </div>
                 <button
                     type='button'
@@ -150,7 +166,7 @@ function AuthLayout({ children }: ViewProps<'layout.auth'>) {
                 <Brand />
             </a>
             <Main>{children}</Main>
-            <p className='bw-auth-footer'>Build something worth competing for.</p>
+            <p className='bw-auth-footer'>BlockWarriors server management</p>
         </div>
     );
 }
@@ -179,9 +195,9 @@ function Login({ model }: ViewProps<'page.auth.login'>) {
     const { Captcha } = model;
     return (
         <section className='bw-login'>
-            <p className='bw-eyebrow'>MEMBER ACCESS</p>
-            <h1>Welcome back.</h1>
-            <p>Sign in to your BlockWarriors workspace.</p>
+
+            <h1>Sign in</h1>
+            <p>Use your existing BlockWarriors account.</p>
             <Form form={{ handleSubmit: model.submit }}>
                 <LoginField field={model.fields.username} label='Username or email' />
                 <LoginField field={model.fields.password} label='Password' />
