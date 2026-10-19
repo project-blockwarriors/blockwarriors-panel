@@ -35,7 +35,6 @@ jobs:
         options: --health-cmd="healthcheck.sh --connect --innodb_initialized" --health-interval=5s --health-timeout=5s --health-retries=10
     env:
       COMPOSER_ROOT_VERSION: 2.0.0-beta.2
-      DB_PORT: ${{ job.services.database.ports[3306] }}
     steps:
       - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
       - uses: shivammathur/setup-php@eb7c497e18156a6bbabfef1d3a82760b9eda3962 # v2
@@ -47,3 +46,5 @@ jobs:
       - run: cp .env.ci .env
       - run: composer install --no-interaction --prefer-dist --no-progress
       - run: vendor/bin/pest tests/Integration/Api/Client/BlockWarriorsApiKeysTest.php tests/Integration/Api/Client/ApiKeyControllerTest.php tests/Integration/Actions/Users/CreateUserTest.php --compact
+        env:
+          DB_PORT: ${{ job.services.database.ports[3306] }}
