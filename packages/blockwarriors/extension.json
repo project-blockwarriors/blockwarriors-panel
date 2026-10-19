@@ -1,0 +1,19 @@
+{
+    "id": "blockwarriors",
+    "type": "theme",
+    "name": "BlockWarriors",
+    "version": "1.0.0",
+    "description": "A focused workspace for BlockWarriors servers and member agents.",
+    "requires": {
+        "panel": "^2.0.0-beta.2",
+        "sdk": ">=2.0.0-beta.6 <3.0"
+    },
+    "theme": {
+        "stylesheet": "dist/theme.css",
+        "schemes": ["light"]
+    },
+    "ui": {
+        "entry": "dist/client.js",
+        "mode": "native"
+    }
+}

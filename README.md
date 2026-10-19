@@ -1,3 +1,15 @@
+# BlockWarriors Server Management
+
+BlockWarriors fork of Pterodactyl **v2.0.0-beta.2**, with a focused white member dashboard and terminal tooling for coding agents. The default development branch is `blockwarriors-v2`.
+
+- [Build, deployment, and recovery](docs/blockwarriors/operations.md)
+- [Member agent setup](docs/blockwarriors/agents.md)
+- [Google sign-in proposal](docs/blockwarriors/google-sign-in.md)
+
+The customization is an installable theme in `packages/blockwarriors`; the upstream engine and authorization remain intact. Google sign-in is not enabled yet. v2 is an upstream beta; keep backups and rehearse upgrades.
+
+---
+
 <p align="center">
   <a href="https://pterodactyl.io">
     <picture>

@@ -1,0 +1,14 @@
+{
+    "name": "blockwarriors-theme",
+    "private": true,
+    "version": "1.0.0",
+    "type": "module",
+    "scripts": {
+        "build": "vite build",
+        "typecheck": "tsc --noEmit",
+        "test": "vitest run"
+    },
+    "devDependencies": {
+        "@pterodactyl/sdk": "file:../sdk"
+    }
+}
