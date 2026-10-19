@@ -648,3 +648,5 @@
 @media(max-width:700px){.bw-competition-row{flex-direction:column;align-items:stretch;padding:20px}.bw-header-inner{gap:12px}.bw-nav{gap:0}.bw-nav-link{font-size:13px}.bw-panel{padding:20px}.bw-admin-content{padding:16px}.bw-access{margin-bottom:24px}.bw-intro,.bw-server-heading{padding-top:24px}}
 
 .bw-access label span{color:#58645c}.bw-connect pre{font-size:13px}
+
+.bw-login label,.bw-login button{text-transform:none;letter-spacing:0}.bw-login input{background:#fff;border:1px solid #bec8bf;color:#19211d}
