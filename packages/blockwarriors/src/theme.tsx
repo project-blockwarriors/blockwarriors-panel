@@ -1,15 +1,8 @@
 import { useId, useState } from 'react';
+import AgentAccess from './AgentAccess';
+import AdminLayout from './AdminLayout';
 import { ArrowUpRight, Blocks, LogOut, Terminal, ChevronDown } from 'lucide-react';
-import {
-    Button,
-    Form,
-    Input,
-    Label,
-    PanelLink,
-    PageContentBlock,
-    SubNavigation,
-    SubNavigationLayout,
-} from '@pterodactyl/sdk';
+import { Button, Form, Input, Label, PanelLink, SubNavigation, SubNavigationLayout } from '@pterodactyl/sdk';
 import { defineTheme, Main, Slot, View, type FieldModel, type ViewProps } from '@pterodactyl/sdk/theme';
 
 function Brand() {
@@ -206,56 +199,10 @@ function Login({ model }: ViewProps<'page.auth.login'>) {
     );
 }
 
-function AgentAccess({ Default, ...props }: ViewProps<'page.account.api'>) {
-    const example = `export BW_PANEL_URL="${window.location.origin}"\n# Store BW_API_TOKEN in your environment or secret manager.\npython3 tools/blockwarriors/bw.py servers\npython3 tools/blockwarriors/bw.py status SERVER_ID`;
-    return (
-        <>
-            <section className='bw-intro'>
-                <div>
-                    <p className='bw-eyebrow'>BUILT FOR YOUR CODING AGENT</p>
-                    <h1>Give your agent the controls.</h1>
-                    <p>Use your member API key to manage the servers you can access.</p>
-                </div>
-            </section>
-            <PageContentBlock>
-                <div className='bw-agent-grid'>
-                    <article className='bw-panel'>
-                        <Terminal size={22} aria-hidden />
-                        <h2>One key. Your permissions.</h2>
-                        <p>
-                            Create a dedicated Client API key below, then give your agent the CLI and guide from our
-                            repository.
-                        </p>
-                        <p>
-                            Keys inherit your account’s access. For narrower access, use a separate member account with
-                            only the required server permissions. Do not give an agent an administrator key.
-                        </p>
-                        <a
-                            className='bw-doc-link'
-                            href='https://github.com/project-blockwarriors/blockwarriors-panel/blob/blockwarriors-v2/docs/blockwarriors/agents.md'
-                            target='_blank'
-                            rel='noreferrer'
-                        >
-                            Agent setup guide <ArrowUpRight size={16} aria-hidden />
-                        </a>
-                    </article>
-                    <article className='bw-code-panel'>
-                        <p>QUICK START · FROM THE FORK CHECKOUT</p>
-                        <pre>
-                            <code>{example}</code>
-                        </pre>
-                        <p>Read operations are immediate. Power, console commands, and writes require --yes.</p>
-                    </article>
-                </div>
-            </PageContentBlock>
-            <Default {...props} />
-        </>
-    );
-}
-
 export default defineTheme({
     views: {
         'layout.app': AppLayout,
+        'layout.admin': AdminLayout,
         'layout.auth': AuthLayout,
         'layout.server': ServerLayout,
         'page.dashboard': Dashboard,

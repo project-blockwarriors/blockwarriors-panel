@@ -65,6 +65,8 @@ Route::prefix('/account')->middleware(AccountSubject::class)->group(function ():
 
     Route::get('/api-keys', [ApiKeyController::class, 'index']);
     Route::post('/api-keys', [ApiKeyController::class, 'store']);
+    Route::post('/api-keys/{identifier}/reveal', Client\RevealApiKeyController::class)
+        ->middleware([Pterodactyl\Http\Middleware\Api\Admin\RequireSessionAuthentication::class, 'throttle:10,1']);
     Route::delete('/api-keys/{identifier}', [ApiKeyController::class, 'delete']);
 
     Route::prefix('/ssh-keys')->group(function (): void {

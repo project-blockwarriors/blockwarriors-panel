@@ -11,6 +11,7 @@ use Illuminate\Support\Str;
 use Illuminate\Validation\Rule;
 use Illuminate\Validation\Rules\In;
 use Illuminate\Validation\Rules\Password as PasswordRule;
+use Pterodactyl\Actions\Api\EnsureDefaultAccountApiKey;
 use Pterodactyl\Contracts\Users\CreatesUsers;
 use Pterodactyl\Facades\Activity;
 use Pterodactyl\Models\User;
@@ -68,6 +69,7 @@ final readonly class CreateUser implements CreatesUsers
         [$user, $token] = DB::transaction(function () use ($attributes, $generateResetToken, $extensions): array {
             $user = User::query()->create($attributes);
             $this->extensions->save($user, $extensions);
+            app(EnsureDefaultAccountApiKey::class)->handle($user);
 
             return [$user->refresh(), $generateResetToken ? Password::createToken($user) : null];
         });

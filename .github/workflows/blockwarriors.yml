@@ -2,9 +2,9 @@ name: BlockWarriors theme and CLI
 on:
   push:
     branches: [blockwarriors-v2]
-    paths: ['packages/blockwarriors/**', 'tools/blockwarriors/**', '.github/workflows/blockwarriors.yml']
+    paths: ['packages/blockwarriors/**', 'tools/blockwarriors/**', 'app/**', 'routes/api-client.php', 'database/migrations/**', 'tests/Integration/Api/Client/BlockWarriorsApiKeysTest.php', '.github/workflows/blockwarriors.yml']
   pull_request:
-    paths: ['packages/blockwarriors/**', 'tools/blockwarriors/**', '.github/workflows/blockwarriors.yml']
+    paths: ['packages/blockwarriors/**', 'tools/blockwarriors/**', 'app/**', 'routes/api-client.php', 'database/migrations/**', 'tests/Integration/Api/Client/BlockWarriorsApiKeysTest.php', '.github/workflows/blockwarriors.yml']
 permissions:
   contents: read
 jobs:
@@ -23,3 +23,27 @@ jobs:
       - run: npm run test --prefix packages/blockwarriors
       - run: npm run build --prefix packages/blockwarriors
       - run: python3 -m unittest discover -s tools/blockwarriors -v
+  member-keys:
+    runs-on: ubuntu-latest
+    services:
+      database:
+        image: mariadb:10.11
+        env:
+          MYSQL_ALLOW_EMPTY_PASSWORD: 'yes'
+          MYSQL_DATABASE: testing
+        ports: ['3306/tcp']
+        options: --health-cmd="healthcheck.sh --connect --innodb_initialized" --health-interval=5s --health-timeout=5s --health-retries=10
+    env:
+      COMPOSER_ROOT_VERSION: 2.0.0-beta.2
+      DB_PORT: ${{ job.services.database.ports[3306] }}
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
+      - uses: shivammathur/setup-php@eb7c497e18156a6bbabfef1d3a82760b9eda3962 # v2
+        with:
+          php-version: '8.3'
+          extensions: intl, mbstring, pdo_mysql, zip
+          tools: composer:v2
+          coverage: none
+      - run: cp .env.ci .env
+      - run: composer install --no-interaction --prefer-dist --no-progress
+      - run: vendor/bin/pest tests/Integration/Api/Client/BlockWarriorsApiKeysTest.php tests/Integration/Api/Client/ApiKeyControllerTest.php tests/Integration/Actions/Users/CreateUserTest.php --compact

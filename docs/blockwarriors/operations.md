@@ -41,6 +41,14 @@ The PHP `intl` extension is required; preserve a compatible PHP 8.3 installation
 
 ## Recovery and upstream updates
 
+### Member keys and admin navigation (theme 1.1.0)
+
+Deploy the companion backend changes and additive `default_api_key_provisioned_at` migration before theme 1.1.0. Run `php artisan bw:api-keys:initialize` once to backfill existing accounts. The command is idempotent, uses user-row locks, preserves active keys, prints only counts, and does not recreate a deliberately revoked key. New accounts created through the normal user action receive a key in the same transaction. Existing user/2FA/server authorization remains authoritative; no new provisioning permission is granted.
+
+`POST /api/client/account/api-keys/{identifier}/reveal` is session-only, owner-only, throttled, audited without secrets, and non-cacheable. The normal list endpoint never returns secret tokens. The page keeps revealed tokens in component memory only. Backend permission tests run against an isolated test database; never point the test bootstrap at production because it refreshes the database.
+
+The admin layout uses an explicit bounded sidebar and a flexible content column. Its collapse button works on desktop, remembers the local preference, and defaults closed on smaller screens. Navigation items and extension slots retain upstream permission filtering.
+
 `?safe_mode=1` lets an administrator recover to the stock theme. `php artisan p:theme:activate classic` is the CLI fallback. UI rollback does not require a database rollback. Keep the beta release pinned and rehearse each update; do not use an unpinned automated `p:upgrade` for a major migration.
 
 Node/API reachability is not a complete game lifecycle test. Reserve a disposable server to exercise power operations, console WebSockets, SFTP, schedules, and backups before relying on this beta for a tournament. Never use someone's active game as a destructive smoke test.
