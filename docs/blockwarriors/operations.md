@@ -62,3 +62,7 @@ This release removes promotional headings and decorative gradients, uses the sam
 ## Presentation refinement (theme 1.3.1)
 
 API keys and agent setup share one desktop screen. Tablet navigation moves to its own row, the member and admin layouts use the shared BlockWarriors mark, and repeated promotional and permission copy is removed. Reveal, copy, revoke, login, advanced tools and sidebar behavior are preserved. The theme passed its nine tests, typecheck and build, plus desktop/tablet/phone inspections using synthetic data. No schema or permission changes.
+
+## Game navigation (theme 1.4.0)
+
+The server dashboard includes a BlockWarriors games section with Dreamweaver and Block Kitchen selectors. Dreamweaver keeps its authenticated arena status read; Block Kitchen links to the independent game page and is explicitly an organizer-run preview. This is a presentation-only theme update, with no migrations or new permissions. Deploy the game website and its Kitchen assets before replacing the theme.

@@ -1,6 +1,7 @@
-import { useId, useState, useEffect } from 'react';
+import { useId, useState } from 'react';
 import AgentAccess from './AgentAccess';
 import AdminLayout from './AdminLayout';
+import Games from './Games';
 import { ArrowUpRight, LogOut, Terminal, ChevronDown } from 'lucide-react';
 import { Button, Form, Input, Label, PanelLink, SubNavigation, SubNavigationLayout } from '@pterodactyl/sdk';
 import { defineTheme, Main, Slot, View, type FieldModel, type ViewProps } from '@pterodactyl/sdk/theme';
@@ -56,7 +57,7 @@ function AppLayout({ model, children }: ViewProps<'layout.app'>) {
                             <LogOut size={17} />
                         </button>
                         <a href='/dreamweaver/' className='bw-nav-link'>
-                            Dreamweaver
+                            Games
                         </a>
                         <Slot name='nav.items.after' />
                     </nav>
@@ -76,36 +77,6 @@ function AppLayout({ model, children }: ViewProps<'layout.app'>) {
     );
 }
 
-function DreamweaverStatus() {
-    const [state, setState] = useState<{
-        healthy: boolean;
-        state?: { status?: string; tick?: number };
-    } | null>(null);
-    useEffect(() => {
-        const controller = new AbortController();
-        fetch('/dreamweaver/api/arena', { signal: controller.signal })
-            .then((r) => (r.ok ? r.json() : null))
-            .then(setState)
-            .catch(() => {});
-        return () => controller.abort();
-    }, []);
-    return (
-        <section className='bw-competition-row'>
-            <div>
-                <h2>Dreamweaver</h2>
-                <p>
-                    {state?.healthy
-                        ? `Arena connected · ${state.state?.status ?? 'private match'}`
-                        : 'Minecraft bot competition · Spring 2027'}
-                </p>
-            </div>
-            <a href='/dreamweaver/' className='bw-action'>
-                Open Dreamweaver <ArrowUpRight size={16} aria-hidden />
-            </a>
-        </section>
-    );
-}
-
 function Dashboard({ Default, ...props }: ViewProps<'page.dashboard'>) {
     return (
         <>
@@ -120,7 +91,7 @@ function Dashboard({ Default, ...props }: ViewProps<'page.dashboard'>) {
                     <ArrowUpRight size={16} aria-hidden />
                 </PanelLink>
             </section>
-            <DreamweaverStatus />
+            <Games />
             <Default {...props} />
         </>
     );
