@@ -66,3 +66,17 @@ API keys and agent setup share one desktop screen. Tablet navigation moves to it
 ## Game navigation (theme 1.4.0)
 
 The server dashboard includes a BlockWarriors games section with Dreamweaver and Block Kitchen selectors. Dreamweaver keeps its authenticated arena status read; Block Kitchen links to the independent game page and is explicitly an organizer-run preview. This is a presentation-only theme update, with no migrations or new permissions. Deploy the game website and its Kitchen assets before replacing the theme.
+
+## Email-only account setup (theme 1.5.0)
+
+Share `/join` with new members. They enter their email and follow the standard account-setup email to choose a password. Existing accounts receive the standard password-reset link; their usual login continues to work. The page uses the same confirmation for both cases. Signed-in members go straight to the panel.
+
+Set `BW_ONBOARDING_ENABLED=true` in the panel environment to open signup (default: closed), then clear or rebuild the configuration cache as the web service account. This opens account creation to anyone who can complete the panel's configured CAPTCHA; it is not a membership approval process. New accounts have no admin or server permissions. Subteam directors still assign server access separately. The normal account creation action provisions the member's personal API key, scoped to their permissions.
+
+Ship `backend/`, `resources/`, `extension.json`, and the built `dist/` together. Before replacement, back up the installed extension and environment; run `p:extension:doctor` against the package. There is no schema migration. Install with `p:extension:install <package> --enable --replace`, clear cached routes/config/views, and gracefully restart queue workers. Verify `/join`, its login-page link, and that the existing SMTP transport authenticates. A successful queue operation does not prove inbox delivery: monitor `pteroq` and failed jobs, and use an approved test mailbox for a delivery check. Never bulk-retry old failed mail as a deployment step.
+
+The endpoint retains web CSRF protection and the panel's CAPTCHA. It permits 20 requests/minute and 120/hour per IP, plus at most three setup attempts/hour per normalized email, a 60-second email cooldown, and a shared cache lock. Keep a shared lock-capable cache if the panel moves to multiple hosts. No submitted username, password or privilege field is accepted. Setup tokens retain upstream expiry and one-time-use behavior.
+
+For rollback, set `BW_ONBOARDING_ENABLED=false` and refresh the configuration cache to close signup, or reinstall the backed-up theme and clear route/config/view caches. Accounts already created remain valid; do not restore an old database to undo this extension-only deployment.
+
+The onboarding integration suite uses an isolated database and fake notifications. It covers account creation, existing password/2FA preservation, duplicate and rate-limited requests, validation, CAPTCHA, closed signup, and the real password setup/token reuse flow. Run it alongside `PasswordResetTest.php`; the test bootstrap refreshes its database, so never point it at production.

@@ -199,6 +199,9 @@ function Login({ model }: ViewProps<'page.auth.login'>) {
             <PanelLink destination={model.forgotPassword} className='bw-forgot'>
                 Forgot your password?
             </PanelLink>
+            <p className='bw-attribution'>
+                New to BlockWarriors? <a href='/join'>Get started</a>
+            </p>
             <p className='bw-attribution'>Powered by Pterodactyl</p>
         </section>
     );
