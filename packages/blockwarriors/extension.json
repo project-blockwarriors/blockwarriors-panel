@@ -2,7 +2,14 @@
     "id": "blockwarriors",
     "type": "theme",
     "name": "BlockWarriors",
-    "version": "1.4.0",
+    "version": "1.5.0",
+    "provider": "BlockWarriors\\Panel\\OnboardingProvider",
+    "autoload": {
+        "BlockWarriors\\Panel\\": "backend/"
+    },
+    "routes": {
+        "root": ["join"]
+    },
     "description": "A focused workspace for BlockWarriors servers and member agents.",
     "requires": {
         "panel": "^2.0.0-beta.2",

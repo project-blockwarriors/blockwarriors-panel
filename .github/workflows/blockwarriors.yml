@@ -2,9 +2,9 @@ name: BlockWarriors theme and CLI
 on:
   push:
     branches: [blockwarriors-v2]
-    paths: ['packages/blockwarriors/**', 'tools/blockwarriors/**', 'app/**', 'routes/api-client.php', 'database/migrations/**', 'tests/Integration/Api/Client/BlockWarriorsApiKeysTest.php', '.github/workflows/blockwarriors.yml']
+    paths: ['packages/blockwarriors/**', 'tools/blockwarriors/**', 'app/**', 'routes/api-client.php', 'database/migrations/**', 'tests/Integration/Api/Client/BlockWarriorsApiKeysTest.php', 'tests/Integration/Http/BlockWarriorsOnboardingTest.php', '.github/workflows/blockwarriors.yml']
   pull_request:
-    paths: ['packages/blockwarriors/**', 'tools/blockwarriors/**', 'app/**', 'routes/api-client.php', 'database/migrations/**', 'tests/Integration/Api/Client/BlockWarriorsApiKeysTest.php', '.github/workflows/blockwarriors.yml']
+    paths: ['packages/blockwarriors/**', 'tools/blockwarriors/**', 'app/**', 'routes/api-client.php', 'database/migrations/**', 'tests/Integration/Api/Client/BlockWarriorsApiKeysTest.php', 'tests/Integration/Http/BlockWarriorsOnboardingTest.php', '.github/workflows/blockwarriors.yml']
 permissions:
   contents: read
 jobs:
@@ -45,6 +45,6 @@ jobs:
           coverage: none
       - run: cp .env.ci .env
       - run: composer install --no-interaction --prefer-dist --no-progress
-      - run: vendor/bin/pest tests/Integration/Api/Client/BlockWarriorsApiKeysTest.php tests/Integration/Api/Client/ApiKeyControllerTest.php tests/Integration/Actions/Users/CreateUserTest.php --compact
+      - run: vendor/bin/pest tests/Integration/Api/Client/BlockWarriorsApiKeysTest.php tests/Integration/Api/Client/ApiKeyControllerTest.php tests/Integration/Actions/Users/CreateUserTest.php tests/Integration/Http/BlockWarriorsOnboardingTest.php tests/Integration/Http/Controllers/Auth/PasswordResetTest.php --compact
         env:
           DB_PORT: ${{ job.services.database.ports[3306] }}
